@@ -1,0 +1,7 @@
+languag: python
+pythyon:
+  - "3.7"
+
+services:
+  - docker
+  
