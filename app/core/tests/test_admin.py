@@ -34,6 +34,8 @@ class AdminSiteTests(TestCase):
 
     def test_user_page_change(self):
         url = reverse('admin:core_user_change', args=[self.user.id])
+        # reverse functions creates url like this:
+        # /admin/core/user/1
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
