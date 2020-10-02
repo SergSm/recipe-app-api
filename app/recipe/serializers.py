@@ -1,9 +1,9 @@
 from rest_framework import serializers
 
-from core.models import TAGS_URL
+from core.models import Tag
 
 
-class TagSerializer(serializer.ModelSerializer):
+class TagSerializer(serializers.ModelSerializer):
     """Tag for the tag object"""
 
     class Meta:
