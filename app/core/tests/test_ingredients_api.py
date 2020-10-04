@@ -13,7 +13,7 @@ from recipe.serializers import IngredientSerializer
 INGREDIENTS_URL = reverse('recipe:ingredient-list')
 
 
-class PublicIngredientApiTests(TestCase):
+class PublicIngredientsApiTests(TestCase):
     """Test the public accessable ingredient API"""
 
     def setUp(self):
@@ -26,12 +26,12 @@ class PublicIngredientApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class PrivateIngredientApiTests(TestCase):
+class PrivateIngredientsAPITests(TestCase):
     """Test ingredients can be retrieved by authorized user"""
 
     def setUp(self):
         self.client = APIClient()
-        user = get_user_model().objects.create(
+        self.user = get_user_model().objects.create_user(
             'test@esfd.pf',
             'testpass'
         )
@@ -41,8 +41,8 @@ class PrivateIngredientApiTests(TestCase):
     def test_retrieve_ingredients_list(self):
         """Test retrieving a list of ingredients"""
         # create 2 objects of the Ingredient models
-        Ingredient.objects.create(self.user, 'kale')
-        Ingredient.objects.create(self.user, 'salt')
+        Ingredient.objects.create(user=self.user, name='kale')
+        Ingredient.objects.create(user=self.user, name='salt')
 
         res = self.client.get(INGREDIENTS_URL)
 
@@ -54,7 +54,7 @@ class PrivateIngredientApiTests(TestCase):
 
     def test_ingredients_limited_to_user(self):
         """Test that only ingredients for authenticated user are returned"""
-        user2 = get_user_model().objects.create(
+        user2 = get_user_model().objects.create_user(
             'test@wersdffdsf.sdf',
             'testpass',
         )
